@@ -1,9 +1,7 @@
 $(function() {
- 
-  $('#chgcss').click(function(){
-    $('#text').css('color','red');
-    $('#test').css('font-size','50px');
-  })
+  // 「#login-show」要素に対するclickイベントを作成してください
+  $('#login-show').click(function(){
+    $('#login-modal').fadeIn();
+  });
   
 });
-
