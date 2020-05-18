@@ -160,7 +160,7 @@ background: radial-gradient(circle, rgba(238,174,202,1) 0%, rgba(148,187,233,1) 
     const secondHand = document.querySelector('.second-hand');
     const minHand = document.querySelector('.min-hand');
     const hourHand = document.querySelector('.hour-hand');
-    const allhand = document.querySelectorAll('.hand');
+    const allhand = document.querySelectorAll('.hand');　//時計の針全て
 
     //setClock関数はデバイスの時刻を取得し、その値を針の角度に変換してそれぞれのCSSを変更する
     function setClock() {
@@ -171,6 +171,7 @@ background: radial-gradient(circle, rgba(238,174,202,1) 0%, rgba(148,187,233,1) 
       const minutes = now.getMinutes();//分
 　　　　
 　　　 //0秒時点で針がぐるっと無駄な回転をしまうため、transitionをnoneに設定
+      //forEachを使用したのは、短針・長針も対応するため
       if (seconds === 0){
         allhand.forEach(e => e.style.transition = 'none');
       }else{
