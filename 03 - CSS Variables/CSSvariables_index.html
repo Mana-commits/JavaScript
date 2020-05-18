@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Scoped CSS Variables and JS</title>
+</head>
+
+<body>
+  <h2>Update CSS Variables with <span class='hl'>JS</span></h2>
+
+  <!--data-sizingは単位（px）を使用するために設定されている-->
+  <div class="controls">
+    <label for="spacing">Spacing:</label>
+    <input id="spacing" type="range" name="spacing" min="10" max="200" value="10" data-sizing="px">
+
+    <label for="sepia">Sepia:</label>
+    <input id="sepia" type="range" name="sepia" min="0" max="100" value="0" data-sizing="%">
+
+    <label for="base">Base Color</label>
+    <input id="base" type="color" name="base" value="#ffc600">
+  </div>
+
+  <img src="hello-i-m-nik-BkVMlETopNA-unsplash.gif" alt="Photo by Hello I'm Nik 🎞 on Unsplash">
+
+  <style>
+    /*CSSの変数を設定
+   ”--”はSASSの$と同じ変数を表す記号*/
+
+    /*CSS変数宣言*/
+    :root {
+      --base: #ffc600;
+      --spacing: 10px;
+      --sepia: 0px;
+    }
+
+    /*CSS変数呼び出しにはvar(--変数名)*/
+    img {
+      padding: var(--spacing);
+      background: var(--base);
+      filter: sepia(var(--sepia));
+    }
+
+    .hl {
+      color: var(--base);
+    }
+
+    body {
+      text-align: center;
+      background: rgb(34, 193, 195);
+      color: white;
+      font-family: 'helvetica neue', sans-serif;
+      font-weight: 100;
+    }
+
+    .controls {
+      margin-bottom: 50px;
+    }
+
+    input {
+      width: 100px;
+    }
+  </style>
+
+  <!--スクリプト-->
+  <script>
+    //コントローラーが変更されたら、その値を取得しそれぞれのCSS変数に代入する
+
+    //変更されるコントローラーを取得
+    const inputs = document.querySelectorAll('.controls input');
+
+    function handleUpdate() {
+      //datasetはdata-XXXを取得
+      const suffix = this.dataset.sizing || '';
+      //取得した値をsetPropertyでCSS変数に設定する
+      //CSS変数はinputのthis.nameと同じ、this.valueは取得した値
+      document.documentElement.style.setProperty(`--${this.name}`, this.value + suffix);
+    }
+    //コントローラーの内容がchangeされたら処理(handleUpdate)を行う
+    inputs.forEach(input => input.addEventListener('change', handleUpdate));
+    //コントローラーの内容がmousemoveされたら処理(handleUpdate)を行う
+    inputs.forEach(input => input.addEventListener('mousemove', handleUpdate));
+  </script>
+
+</body>
+
+</html>
