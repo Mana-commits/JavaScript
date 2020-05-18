@@ -34,7 +34,8 @@
   <!--スタイルシート-->
   <style>
     html {
-      background: #018DED;
+      background: rgb(238,174,202);
+background: radial-gradient(circle, rgba(238,174,202,1) 0%, rgba(148,187,233,1) 100%);
       background-size: cover;
       font-family: 'helvetica neue';
       text-align: center;
@@ -58,9 +59,10 @@
       margin: 50px auto;
       position: relative;
       padding: 2rem;
+      filter: drop-shadow(1px 3px 5px rgba(0, 0, 0, 0.2));
     }
 
-/*時計の文字盤目盛り*/
+    /*時計の文字盤目盛り*/
     .dials {
       position: relative;
       width: 100%;
@@ -82,10 +84,10 @@
       content: "";
       width: 6px;
       height: 15px;
-      background-color: silver;
+      background-color: black;
     }
 
-/*時計の文字盤目盛りに角度を付けていく*/
+    /*時計の文字盤目盛りに角度を付けていく*/
     .dials div:nth-child(1) {
       transform: rotate(30deg);
     }
@@ -146,10 +148,10 @@
       background: black;
       position: absolute;
       top: 50%;
-      transform-origin: 100%;
-      /*針の右端を中心として回転させる*/
+      transform-origin: 100%;/*針の右端を中心として回転させる*/
+      transition: all .1s;
+      transition-timing-function: cubic-bezier(0.25, 0.1, 0.15, 2.95);/*時計の針のような動きを検証ツールで作成*/
     }
-
   </style>
 
   <!--スクリプト-->
@@ -158,6 +160,7 @@
     const secondHand = document.querySelector('.second-hand');
     const minHand = document.querySelector('.min-hand');
     const hourHand = document.querySelector('.hour-hand');
+    const allhand = document.querySelectorAll('.hand');
 
     //setClock関数はデバイスの時刻を取得し、その値を針の角度に変換してそれぞれのCSSを変更する
     function setClock() {
@@ -166,7 +169,14 @@
       const seconds = now.getSeconds();//秒
       const hours = now.getHours();//時
       const minutes = now.getMinutes();//分
-
+　　　　
+　　　 //0秒時点で針がぐるっと無駄な回転をしまうため、transitionをnoneに設定
+      if (seconds === 0){
+        allhand.forEach(e => e.style.transition = 'none');
+      }else{
+        allhand.forEach(e =>e.style.transition = '');//書き換えなし
+      }
+     
 
       //毎秒
       const secondDeg = (seconds * 6 + 90);//初期表示は針が9時をさしているため、90度を足して12スタートにしている
