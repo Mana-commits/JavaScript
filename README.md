@@ -1,0 +1,2 @@
+JavaScriptの学習用に作成
+JavaScript30の内容をフォルダごとに格納
